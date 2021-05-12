@@ -1,1 +1,1 @@
-from .validator import validate
+from .validator import validate_and_parse

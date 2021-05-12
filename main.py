@@ -1,13 +1,13 @@
 import click
-from utils import validate
+from utils import validate_and_parse
 
 
 @click.command()
 @click.option('-re', '--regular_expression', type=click.STRING,
               help='input regular expression.', required=True, default='A|B')
 def run(regular_expression):
-    is_valid = validate(regular_expression)
-    print(is_valid, regular_expression)
+    is_valid, operations = validate_and_parse(regular_expression)
+    print(operations)
     if is_valid:
         # Convert to corresponding NFA
         pass
