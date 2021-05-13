@@ -27,6 +27,10 @@ class Node:
         self.End = False
     
     def add_out(self, input, node):
-        self.Out.append({input: Node(node)})
-        self.Out[-1][input].set_start_false()
-        self.set_end_false()
+        if(self.end):
+            self.Out.append({input: Node(node)})
+            self.Out[-1][input].set_start_false()
+            self.set_end_false()
+        else:
+            for n in self.Out:
+                self.Out.add_out(input, node)
