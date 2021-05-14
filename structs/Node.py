@@ -1,5 +1,6 @@
 class Node:
     def __init__(self, node=None):
+        self.visited = False    # for testing and printing
         self.out = []
         self.letter = None
         self.start = True
@@ -26,7 +27,7 @@ class Node:
     def set_end_false(self):
         self.end = False
 
-    def add_out(self, state_input, node, for_node):
+    def add_out(self, state_input, node, for_node, node2=None):
         if for_node:
             self.out.append({"input": state_input, "node": node})
             self.out[-1]["node"].set_start_false()
@@ -34,9 +35,12 @@ class Node:
             return True
         else:
             if self.end:
-                self.out.append({"input": state_input, "node": Node(node)})
+                self.out.append({"input": state_input, "node": node})
                 self.out[-1]["node"].set_start_false()
                 self.set_end_false()
+                # node2 for the case of asterisk to make one graph outs to same point in the same time
+                if node2 is not None:
+                    self.out.append({"input": state_input, "node": node2})
                 return True
             else:
                 for n in self.out:
@@ -48,7 +52,10 @@ class Node:
             ##here we should add for the hole graph
 
     def __str__(self):
+        if self.visited:
+            return "visited before"
         for n in self.out:
             print(n["node"])
             print(n["input"])
+        self.visited = True
         return self.letter + "\t" + str(self.start) + "\t" + str(self.end)
