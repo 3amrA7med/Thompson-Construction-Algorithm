@@ -1,36 +1,54 @@
 class Node:
-    def __init__(self, node = None):
-        if(Node == None):
-            self.Out = []
-            self.Letter = None
-            self.Start = True
-            self.End = True
-        else:
-            self.Out = node.Out
-            self.Letter = node.Letter
-            self.Start = node.Start
-            self.End = node.End
+    def __init__(self, node=None):
+        self.out = []
+        self.letter = None
+        self.start = True
+        self.end = True
+        if node is not None:
+            for node_dic in node.out:
+                self.out.append({"input": node_dic["input"], "node": node_dic["node"]})
+            self.letter = node.letter
+            self.start = node.start
+            self.end = node.end
 
     def set_letter(self, letter):
-        self.Letter = letter
+        self.letter = letter
 
     def set_start_true(self):
-        self.Start = True
+        self.start = True
 
     def set_start_false(self):
-        self.Start = False
+        self.start = False
 
     def set_end_true(self):
-        self.End = True
+        self.end = True
 
     def set_end_false(self):
-        self.End = False
-    
-    def add_out(self, input, node):
-        if(self.end):
-            self.Out.append({input: Node(node)})
-            self.Out[-1][input].set_start_false()
+        self.end = False
+
+    def add_out(self, state_input, node, for_node):
+        if for_node:
+            self.out.append({"input": state_input, "node": node})
+            self.out[-1]["node"].set_start_false()
             self.set_end_false()
+            return True
         else:
-            for n in self.Out:
-                self.Out.add_out(input, node)
+            if self.end:
+                self.out.append({"input": state_input, "node": Node(node)})
+                self.out[-1]["node"].set_start_false()
+                self.set_end_false()
+                return True
+            else:
+                for n in self.out:
+                    return_val = n["node"].add_out(state_input, node, False)
+                    if return_val:
+                        return True
+                return False
+
+            ##here we should add for the hole graph
+
+    def __str__(self):
+        for n in self.out:
+            print(n["node"])
+            print(n["input"])
+        return self.letter + "\t" + str(self.start) + "\t" + str(self.end)
