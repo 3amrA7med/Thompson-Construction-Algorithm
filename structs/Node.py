@@ -27,42 +27,20 @@ class Node:
     def set_end_false(self):
         self.end = False
 
-    def get_ε_count(self):
-        count = 0
-        for n in self.out:
-            if n["input"] == "ε":
-                count += 1
-        if count == 0:
-            return ''
-        else:
-            return str(count)
-
     def add_out(self, state_input, node, for_node, node2=None):
         if for_node:
-            if state_input == "ε":
-                count = self.get_ε_count()
-                self.out.append({"input": state_input + count, "node": node})
-            else:
-                self.out.append({"input": state_input, "node": node})
+            self.out.append({"input": state_input, "node": node})
             self.out[-1]["node"].set_start_false()
             self.set_end_false()
             return True
         else:
             if self.end:
-                if state_input == "ε":
-                    count = self.get_ε_count()
-                    self.out.append({"input": state_input + count, "node": node})
-                else:
-                    self.out.append({"input": state_input, "node": node})
+                self.out.append({"input": state_input, "node": node})
                 self.out[-1]["node"].set_start_false()
                 self.set_end_false()
                 # node2 for the case of asterisk to make one graph outs to same point in the same time
                 if node2 is not None:
-                    if state_input == "ε":
-                        count = self.get_ε_count()
-                        self.out.append({"input": state_input + count, "node": node2})
-                    else:
-                        self.out.append({"input": state_input, "node": node2})
+                    self.out.append({"input": state_input, "node": node2})
                 return True
             else:
                 for n in self.out:
@@ -82,6 +60,13 @@ class Node:
         self.visited = True
         return self.letter + "\t" + str(self.start) + "\t" + str(self.end)
 
+    def get_unique_inputs(self):
+        inputs = []
+        for n in self.out:
+            if not(n["input"] in inputs):
+                inputs.append(n["input"])
+        return inputs
+
     def get_json(self):
         json = ''
         if not self.visited:
@@ -89,9 +74,15 @@ class Node:
 
             if self.start:
                 json += '\t"startingState":"' + self.letter + '",\n'
-            json += '\t"' + self.letter + '":{\n\t\t"isTerminatingState": "' + str(self.end) + '",\n'
-            for n in self.out:
-                json += '\t\t"' + n["input"] + '": "' + n["node"].letter + '",\n'
+            json += '\t"' + self.letter + '":{\n\t\t"isTerminatingState": ' + str(self.end).lower() + ',\n'
+            inputs = self.get_unique_inputs()
+            for input in inputs:
+                json += '\t\t"' + input + '":['
+                for n in self.out:
+                    if n["input"] == input:
+                        json += '"' + n["node"].letter + '",'
+                json = json[:-1]
+                json += '],\n'
             json = json[:-2]
             json += '\n\t},\n'
 
