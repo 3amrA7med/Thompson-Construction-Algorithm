@@ -1,6 +1,6 @@
 import json
 from graphviz import Digraph
-graph = Digraph(comment='NFA')
+graph = Digraph(graph_attr={'rankdir': 'LR'}, comment='NFA')
 
 
 def draw_graph(json_obj):
@@ -15,7 +15,7 @@ def draw_graph(json_obj):
     # Add nodes
     for d in data:
         if d != "startingState":
-            if data[d]["isTerminatingState"] == "True":
+            if data[d]["isTerminatingState"]:
                 graph.node(str(d), shape="doublecircle")
             else:
                 graph.node(str(d))
@@ -27,10 +27,9 @@ def draw_graph(json_obj):
 
     # Add edges
     for d in nodes:
-        print(data[d])
         for attribute in data[d]:
             if attribute != "isTerminatingState":
-                print(str(d), str(data[d][attribute]), attribute)
-                graph.edge(d, data[d][attribute], attribute)
+                for i in range(len(data[d][attribute])):
+                    graph.edge(d, data[d][attribute][i], attribute)
 
     graph.unflatten().render('./graph', view=True, format='png', cleanup=True)

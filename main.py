@@ -16,7 +16,10 @@ def run(regular_expression):
         # Convert to corresponding NFA
         json = construct_nfa(operations)
         print(json)
-        #draw_graph(json)
+        draw_graph(json)
+        file = open("output.json", "w", encoding="utf-8")
+        file.write(json)
+        file.close()
     else:
         # The regular expression is invalid
         print("The regular expression is invalid.")

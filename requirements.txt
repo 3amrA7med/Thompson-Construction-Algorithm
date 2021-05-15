@@ -1,1 +1,2 @@
-click~=8.0.0
+click==7.1.2
+graphviz==0.16
