@@ -1,8 +1,15 @@
 from structs.Node import Node
+import string
 
-start = None
-Input = [["A", "+", "1", "0"],
-         ["B", "*", "A"]]
+node_inputs = list(string.ascii_lowercase) + list(string.digits)
+
+
+# start = None
+# Input = [["A", "+", "1", "0"],
+#          ["B", "*", "A"]]
+
+def in_node_inputs(letter):
+    return letter in node_inputs
 
 
 def get_idx(letter, nodes):
@@ -14,7 +21,7 @@ def get_idx(letter, nodes):
 
 def OR(letter, first, second, nodes):
     # case if the two inputs are basic input 0 and/or 1
-    if (first == "0" or first == "1") and (second == "0" or second == "1"):
+    if in_node_inputs(first) and in_node_inputs(second):
         N0 = Node()
         N0.set_letter(letter + "ε")
 
@@ -34,7 +41,7 @@ def OR(letter, first, second, nodes):
         nodes.append(N3)
     # case if one of the inputs is basic and the other one is complex
     # complex means that there is more than expression in the state
-    elif first == "0" or first == "1":
+    elif in_node_inputs(first):
         idx = get_idx(second, nodes)
 
         N0 = Node()
@@ -54,7 +61,7 @@ def OR(letter, first, second, nodes):
         nodes.append(N3)
         nodes.pop(idx)
     # same previous case but with flipped inputs
-    elif second == "0" or second == "1":
+    elif in_node_inputs(second):
         idx = get_idx(first, nodes)
 
         N0 = Node()
@@ -95,7 +102,7 @@ def OR(letter, first, second, nodes):
 
 
 def asterisk(letter, first, nodes):
-    if first == "0" or first == "1":
+    if in_node_inputs(first):
         N0 = Node()
         N0.set_letter(letter + "ε")
 
@@ -133,7 +140,7 @@ def asterisk(letter, first, nodes):
 
 
 def concatenate(letter, first, second, nodes):
-    if (first == "0" or first == "1") and (second == "0" or second == "1"):
+    if in_node_inputs(first) and in_node_inputs(second):
         N0 = Node()
         N0.set_letter(letter + second)
 
@@ -147,7 +154,7 @@ def concatenate(letter, first, second, nodes):
 
         nodes.append(N2)
 
-    elif first == "0" or first == "1":
+    elif in_node_inputs(first):
         idx = get_idx(second, nodes)
 
         N0 = Node()
@@ -157,7 +164,7 @@ def concatenate(letter, first, second, nodes):
         nodes.append(N0)
         nodes.pop(idx)
 
-    elif second == "0" or second == "1":
+    elif in_node_inputs(second):
         idx = get_idx(first, nodes)
 
         N0 = Node()
@@ -190,10 +197,11 @@ def construct_nfa(inputs):
     json += nodes[0].get_json()
     json = json[:-2]
     json += '\n}'
-    #print(json)
+    # print(json)
     return json
     # print(nodes[0])
 
 
 if __name__ == "__main__":
-    construct_nfa(Input)
+    # construct_nfa(Input)
+    print(node_inputs)
