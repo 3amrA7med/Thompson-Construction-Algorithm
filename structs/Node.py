@@ -1,3 +1,4 @@
+import json
 class Node:
     def __init__(self, node=None):
         self.visited = False    # for testing and printing
@@ -44,7 +45,7 @@ class Node:
                 return True
             else:
                 for n in self.out:
-                    return_val = n["node"].add_out(state_input, node, False)
+                    return_val = n["node"].add_out(state_input, node, False, node2)
                     if return_val:
                         return True
                 return False
@@ -59,3 +60,24 @@ class Node:
             print(n["input"])
         self.visited = True
         return self.letter + "\t" + str(self.start) + "\t" + str(self.end)
+
+    def get_json(self):
+        json = ''
+        if not self.visited:
+            self.visited = True
+
+            if self.start:
+                json += '\t"startingState":"' + self.letter + '"\n'
+            json += '\t"' + self.letter + '":{\n\t\t"isTerminatingState":' + str(self.end) + ',\n'
+            for n in self.out:
+                json += '\t\t"' + n["input"] + '":' + n["node"].letter + ',\n'
+            json = json[:-2]
+            json += '\n\t},\n'
+
+            if len(self.out) > 0:
+                for n in self.out:
+                    json += n["node"].get_json()
+
+
+        return json
+

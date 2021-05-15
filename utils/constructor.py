@@ -1,5 +1,6 @@
 from structs.Node import Node
 from PySimpleAutomata import automata_IO
+import json
 
 start = None
 Input = [["A", "+", "1", "0"],
@@ -187,8 +188,12 @@ def construct_nfa(inputs):
         elif g[1] == "CONCAT":
             concatenate(g[0], g[2], g[3], nodes)
 
-
-    print(nodes[0])
+    json = '{\n'
+    json += nodes[0].get_json()
+    json = json[:-2]
+    json += '\n}'
+    print(json)
+    # print(nodes[0])
 
 
 if __name__ == "__main__":
