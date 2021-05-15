@@ -192,7 +192,8 @@ def construct_nfa(inputs):
     json += nodes[0].get_json()
     json = json[:-2]
     json += '\n}'
-    print(json)
+    #print(json)
+    return json
     # print(nodes[0])
 
 
