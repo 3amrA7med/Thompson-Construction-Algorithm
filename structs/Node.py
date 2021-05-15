@@ -27,20 +27,42 @@ class Node:
     def set_end_false(self):
         self.end = False
 
+    def get_ε_count(self):
+        count = 0
+        for n in self.out:
+            if n["input"] == "ε":
+                count += 1
+        if count == 0:
+            return ''
+        else:
+            return str(count)
+
     def add_out(self, state_input, node, for_node, node2=None):
         if for_node:
-            self.out.append({"input": state_input, "node": node})
+            if state_input == "ε":
+                count = self.get_ε_count()
+                self.out.append({"input": state_input + count, "node": node})
+            else:
+                self.out.append({"input": state_input, "node": node})
             self.out[-1]["node"].set_start_false()
             self.set_end_false()
             return True
         else:
             if self.end:
-                self.out.append({"input": state_input, "node": node})
+                if state_input == "ε":
+                    count = self.get_ε_count()
+                    self.out.append({"input": state_input + count, "node": node})
+                else:
+                    self.out.append({"input": state_input, "node": node})
                 self.out[-1]["node"].set_start_false()
                 self.set_end_false()
                 # node2 for the case of asterisk to make one graph outs to same point in the same time
                 if node2 is not None:
-                    self.out.append({"input": state_input, "node": node2})
+                    if state_input == "ε":
+                        count = self.get_ε_count()
+                        self.out.append({"input": state_input + count, "node": node2})
+                    else:
+                        self.out.append({"input": state_input, "node": node2})
                 return True
             else:
                 for n in self.out:
