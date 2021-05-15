@@ -1,6 +1,4 @@
 from structs.Node import Node
-from PySimpleAutomata import automata_IO
-import json
 
 start = None
 Input = [["A", "+", "1", "0"],

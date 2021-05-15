@@ -1,4 +1,3 @@
-import json
 class Node:
     def __init__(self, node=None):
         self.visited = False    # for testing and printing
