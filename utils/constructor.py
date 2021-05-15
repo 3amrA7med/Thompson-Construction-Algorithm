@@ -1,12 +1,7 @@
-from structs.Node import Node
 import string
-
+from structs import Node
 node_inputs = list(string.ascii_lowercase) + list(string.digits)
 
-
-# start = None
-# Input = [["A", "+", "1", "0"],
-#          ["B", "*", "A"]]
 
 def in_node_inputs(letter):
     return letter in node_inputs
@@ -200,8 +195,3 @@ def construct_nfa(inputs):
     # print(json)
     return json
     # print(nodes[0])
-
-
-if __name__ == "__main__":
-    # construct_nfa(Input)
-    print(node_inputs)

@@ -1,10 +1,10 @@
+import string
 OR1 = "|"
 OR2 = "+"
 ASTERISK = "*"
 OPEN_BRACKET = "("
 CLOSED_BRACKET = ")"
-ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-            'V', 'W', 'X', 'Y', 'Z']
+ALPHABET = list(string.ascii_uppercase)
 
 
 def validate_and_parse(regular_expression):
