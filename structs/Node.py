@@ -66,17 +66,14 @@ class Node:
             self.visited = True
 
             if self.start:
-                json += '\t"startingState":"' + self.letter + '"\n'
-            json += '\t"' + self.letter + '":{\n\t\t"isTerminatingState":' + str(self.end) + ',\n'
+                json += '\t"startingState":"' + self.letter + '",\n'
+            json += '\t"' + self.letter + '":{\n\t\t"isTerminatingState": "' + str(self.end) + '",\n'
             for n in self.out:
-                json += '\t\t"' + n["input"] + '":' + n["node"].letter + ',\n'
+                json += '\t\t"' + n["input"] + '": "' + n["node"].letter + '",\n'
             json = json[:-2]
             json += '\n\t},\n'
 
             if len(self.out) > 0:
                 for n in self.out:
                     json += n["node"].get_json()
-
-
         return json
-

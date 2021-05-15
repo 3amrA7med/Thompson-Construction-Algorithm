@@ -15,8 +15,8 @@ def run(regular_expression):
     if is_valid:
         # Convert to corresponding NFA
         json = construct_nfa(operations)
-        # draw_graph(json)
         print(json)
+        draw_graph(json)
     else:
         # The regular expression is invalid
         print("The regular expression is invalid.")
