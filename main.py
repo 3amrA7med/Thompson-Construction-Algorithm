@@ -5,6 +5,7 @@ from utils import validate_and_parse, construct_nfa, preprocess_regular_expressi
 # 1- No capital letters used in the regular expression and if used it is converted to lower case.
 # 2- White spaces are removed.
 # 3- regular expression will be with limited length. (26 operation maximum).
+# 4- Assuming precedence, Example: 01|23 is parsed like this ((01)|2)3.
 @click.command()
 @click.option('-re', '--regular_expression', type=click.STRING,
               help='input regular expression.', required=True, default='A|B')
