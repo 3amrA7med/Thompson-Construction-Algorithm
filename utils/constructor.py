@@ -116,6 +116,8 @@ def asterisk(letter, first, nodes):
 
         N1.add_out("ε", N3, True)
 
+        N3.set_start_true()
+
         nodes.append(N3)
     else:
         idx = get_idx(first, nodes)
@@ -129,6 +131,8 @@ def asterisk(letter, first, nodes):
         N1.add_out("ε", N0, True)
 
         nodes[idx].add_out("ε", N0, False, N1)
+
+        N1.set_start_true()
 
         nodes.append(N1)
         nodes.pop(idx)
