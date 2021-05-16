@@ -22,6 +22,8 @@ def draw_graph(json_obj):
             nodes.append(str(d))
         else:
             starting_state = data["startingState"]
+    if not starting_state:
+        starting_state = nodes[0]
     graph.node("", shape="none")
     graph.edge("", starting_state)
 
