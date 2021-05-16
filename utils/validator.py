@@ -85,7 +85,7 @@ def validate_expression(operations, start_index, expression, reduced_expression)
     asterisk_position = expression.find(ASTERISK)
     if asterisk_position != -1:
         # repeated asterisk
-        if expression[asterisk_position+1] == "*":
+        if len(expression) > 2 and expression[asterisk_position+1] == "*":
             return False, [], []
         else:
             asterisk_position = reduced_expression.find(ASTERISK)
