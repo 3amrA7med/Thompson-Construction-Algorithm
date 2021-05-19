@@ -15,6 +15,7 @@ def run(regular_expression):
     print(operations)
     if is_valid:
         # Convert to corresponding NFA
+        #operations = [['A', 'CONCAT', '0', '1'], ['B', 'CONCAT', '2', '3'], ['C', '+', 'A', 'B']]
         json = construct_nfa(operations)
         print(json)
         try:

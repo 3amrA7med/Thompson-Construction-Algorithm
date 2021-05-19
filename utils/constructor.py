@@ -1,5 +1,6 @@
 import string
 from structs import Node
+
 node_inputs = list(string.ascii_lowercase) + list(string.digits)
 
 
@@ -14,7 +15,7 @@ def get_idx(letter, nodes):
     return -1
 
 
-def OR(letter, first, second, nodes):
+def oring(letter, first, second, nodes):
     # case if the two inputs are basic input 0 and/or 1
     if in_node_inputs(first) and in_node_inputs(second):
         N0 = Node()
@@ -91,9 +92,13 @@ def OR(letter, first, second, nodes):
         N3.add_out("ε", nodes[idx1], True)
         N3.add_out("ε", nodes[idx2], True)
 
+        if idx1 > idx2:
+            nodes.pop(idx1)
+            nodes.pop(idx2)
+        else:
+            nodes.pop(idx2)
+            nodes.pop(idx1)
         nodes.append(N3)
-        nodes.pop(idx1)
-        nodes.pop(idx2)
 
 
 def asterisk(letter, first, nodes):
@@ -185,7 +190,7 @@ def construct_nfa(inputs):
     nodes = []
     for g in inputs:
         if g[1] == "+":
-            OR(g[0], g[2], g[3], nodes)
+            oring(g[0], g[2], g[3], nodes)
         elif g[1] == "*":
             # pass
             asterisk(g[0], g[2], nodes)
